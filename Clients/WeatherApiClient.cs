@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain;
 using Clients;
+using Microsoft.Extensions.Configuration;
 
 namespace APIAggregator.Infrastructure
 {
-    public class WeatherApiClient : IApiClient
+    public class WeatherApiClient(HttpClient httpClient, IConfiguration configuration) : IApiClient
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient = httpClient;
 
-        public string ApiKey { get; set; }
-        public string ApiUrl { get; set; }
+        public string ApiKey { get; set; } = configuration["WeatherApi:ApiKey"];
+        public string ApiUrl { get; set; } = configuration["WeatherApi:ApiUrl"];
 
-        public string ApiName = "OpenWeatherMap";
+        public string ApiName { get; set; } = "OpenWeatherMap";
 
 
         private List<string> _cities = new List<string>
@@ -25,15 +26,6 @@ namespace APIAggregator.Infrastructure
             "New York",
             "Tokyo"
         };
-
-        public WeatherApiClient(HttpClient httpClient)
-        {
-
-
-            _httpClient = httpClient;
-            ApiKey = "f5e8a8a263a02e8f9305f4a0755498c3"; // You can parameterize this later
-            ApiUrl = $"https://api.openweathermap.org/data/2.5/weather?q=";
-        }
 
         public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data)
         {

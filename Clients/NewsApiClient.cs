@@ -5,22 +5,18 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain;
 using Clients;
+using Microsoft.Extensions.Configuration;
 
 
 namespace APIAggregator.Infrastructure
 {
-    public class NewsApiClient : IApiClient
+    public class NewsApiClient(HttpClient httpClient, IConfiguration configuration) : IApiClient
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient = httpClient;
 
-        public string ApiKey { get; set; }
-        public string ApiUrl { get; set; } = "https://newsapi.org/v2/top-headlines?country=us&category=";
+        public string ApiKey { get; set; } = configuration["NewsApi:ApiKey"];
+        public string ApiUrl { get; set; } = configuration["NewsApi:ApiUrl"];
         public string ApiName { get; set; } = "NewsAPI";
-
-        public NewsApiClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
 
         public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data)
         {

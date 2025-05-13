@@ -1,6 +1,7 @@
 ﻿
 using APIAggregator.Infrastructure;
 using Domain;
+using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests
 {
@@ -13,11 +14,14 @@ namespace IntegrationTests
         {
             var httpClient = new HttpClient();
 
-            _client = new NewsApiClient(httpClient)
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            _client = new NewsApiClient(httpClient, configuration)
             {
-                ApiKey = "65ce4f3b539a4484b8e78ec46dcfe61f",
-                ApiUrl = "https://newsapi.org/v2/top-headlines?country=us&category=",
-                ApiName = "NewsAPI"
+                ApiKey = configuration["NewsApi:ApiKey"],
+                ApiUrl = configuration["NewsApi:ApiUrl"]
             };
         }
 

@@ -1,6 +1,8 @@
 ﻿
 using Domain;
 using APIAggregator.Infrastructure;
+using Microsoft.Extensions.Configuration;
+
 
 namespace APIAggregator.Tests.Integration
 {
@@ -13,7 +15,15 @@ namespace APIAggregator.Tests.Integration
         {
             var httpClient = new HttpClient();
 
-            _client = new WeatherApiClient(httpClient){ };
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) 
+                .Build();
+
+            _client = new WeatherApiClient(httpClient, configuration)
+            {
+                ApiKey = configuration["WeatherApi:ApiKey"],
+                ApiUrl = configuration["WeatherApi:ApiUrl"]
+            };
         }
 
         [Test]
