@@ -26,7 +26,7 @@ namespace Application
             _apiClients = apiClients;
         }
 
-        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto aggregatedData, string sort = null, 
+        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto aggregatedData, 
             CancellationToken cancellationToken = default)
         {
             var tasks = _apiClients.Select(client => client.FetchAsync(cancellationToken, aggregatedData));

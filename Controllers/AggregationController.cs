@@ -16,9 +16,9 @@ namespace AposAPI_Aggregator.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] AggregatedDataDto data, [FromQuery] string? sort = null)
+        public async Task<IActionResult> Get([FromQuery] AggregatedDataDto data)
         {
-            var result = await _aggregationService.GetAggregatedDataAsync(data, sort);
+            var result = await _aggregationService.GetAggregatedDataAsync(data);
             return Ok(result);
         }
     }
