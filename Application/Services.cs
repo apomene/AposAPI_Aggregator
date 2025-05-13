@@ -7,6 +7,7 @@ namespace Application
 {
     public static class ApplicationServiceRegistration
     {
+        //static HashSet<string> ApiNames { get; set; }
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAggregationService, AggregationService>();
@@ -16,6 +17,8 @@ namespace Application
 
     public class AggregationService : IAggregationService
     {
+       
+       
         private readonly IEnumerable<IApiClient> _apiClients;
 
         public AggregationService(IEnumerable<IApiClient> apiClients)
@@ -23,15 +26,17 @@ namespace Application
             _apiClients = apiClients;
         }
 
-        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(string filter = null, string sort = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto aggregatedData, string sort = null, 
+            CancellationToken cancellationToken = default)
         {
-            var tasks = _apiClients.Select(client => client.FetchAsync(cancellationToken));
+            var tasks = _apiClients.Select(client => client.FetchAsync(cancellationToken, aggregatedData));
             var results = await Task.WhenAll(tasks);
 
             var combined = results.SelectMany(x => x);
 
             return combined;
         }
+     
     }
 
 

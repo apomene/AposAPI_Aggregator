@@ -3,9 +3,15 @@
 
 namespace Application
 {
+
     public interface IAggregationService
     {
-        Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(string filter = null, string sort = null, CancellationToken cancellationToken = default);
+      
+        Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto data, string sort = null, 
+            CancellationToken cancellationToken = default);
+
     }
+
+   
 
 }

@@ -13,36 +13,63 @@ namespace APIAggregator.Infrastructure
     {
         private readonly HttpClient _httpClient;
 
+        public string ApiKey { get; set; }
+        public string ApiUrl { get; set; }
+
+        public string ApiName = "OpenWeatherMap";
+
+
+        private List<string> _cities = new List<string>
+        {
+            "London",
+            "New York",
+            "Tokyo"
+        };
+
         public WeatherApiClient(HttpClient httpClient)
         {
-            
+
+
             _httpClient = httpClient;
+            ApiKey = "f5e8a8a263a02e8f9305f4a0755498c3"; // You can parameterize this later
+            ApiUrl = $"https://api.openweathermap.org/data/2.5/weather?q=";
         }
 
-        public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data)
         {
-            var city = "London"; // You can parameterize this later
-            var apiKey = "f5e8a8a263a02e8f9305f4a0755498c3";
-            var url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
+            try
+            {
+                var city = _cities.FirstOrDefault(c => c == data.Filter);
+                //city = "Athens"; // For testing purposes, you can remove this line later
 
-            var response = await _httpClient.GetAsync(url, cancellationToken);
-            response.EnsureSuccessStatusCode();
+                var url = $"{ApiUrl}{city}&appid={ApiKey}&units=metric";
 
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
-            var weather = JsonDocument.Parse(json);
 
-            var result = new List<AggregatedItemDto>
+                var response = await _httpClient.GetAsync(url, cancellationToken);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync(cancellationToken);
+                var weather = JsonDocument.Parse(json);
+
+                var result = new List<AggregatedItemDto>
             {
                 new AggregatedItemDto
                 {
-                    Source = "OpenWeatherMap",
+                    Source = ApiName,
                     Title = $"Weather in {city}",
                     Timestamp = DateTime.UtcNow,
                     Description = weather.RootElement.GetProperty("weather")[0].GetProperty("description").GetString()
                 }
             };
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                //TO DO: Log
+                throw;
+            }
+
         }
     }
 }

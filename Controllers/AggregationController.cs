@@ -1,4 +1,5 @@
 using Application;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AposAPI_Aggregator.Controllers
@@ -15,10 +16,10 @@ namespace AposAPI_Aggregator.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string? filter = null, [FromQuery] string? sort = null)
+        public async Task<IActionResult> Get([FromQuery] AggregatedDataDto data, [FromQuery] string? sort = null)
         {
-            var data = await _aggregationService.GetAggregatedDataAsync(filter, sort);
-            return Ok(data);
+            var result = await _aggregationService.GetAggregatedDataAsync(data, sort);
+            return Ok(result);
         }
     }
 

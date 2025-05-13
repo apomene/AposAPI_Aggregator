@@ -7,7 +7,9 @@ namespace Clients
 {
     public interface IApiClient
     {
-        Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken);
+        string ApiKey { get; set; }
+        string ApiUrl { get; set; }
+        Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data);
     }
 
     public static class InfrastructureServiceRegistration
