@@ -17,8 +17,7 @@ namespace Clients
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IApiClient, WeatherApiClient>();
-            //services.AddScoped<IWeatherApiClient, WeatherApiClient>();
-            //services.AddScoped<INewsApiClient, NewsApiClient>();
+            services.AddScoped<IApiClient, NewsApiClient>();
             //services.AddScoped<IGitHubApiClient, GitHubApiClient>();
             //// Add Polly policies here if needed
             return services;

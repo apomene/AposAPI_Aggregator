@@ -3,6 +3,7 @@ using Microsoft.Identity.Web;
 using Application;
 using Clients;
 using Microsoft.AspNetCore.Builder;
+using APIAggregator.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,17 @@ builder.Services.AddHttpClient();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 
+builder.Services.AddSingleton<IApiClient>(provider =>
+{
+    var client = provider.GetRequiredService<NewsApiClient>();
+    client.ApiKey = builder.Configuration["NewsApi"];
+    return client;
+});
+
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

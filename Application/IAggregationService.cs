@@ -10,8 +10,6 @@ namespace Application
         Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto data,
             CancellationToken cancellationToken = default);
 
-    }
-
-   
+    }   
 
 }
