@@ -1,0 +1,6 @@
+@AposAPI_Aggregator_HostAddress = http://localhost:5081
+
+GET {{AposAPI_Aggregator_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
