@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35913.81 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AposAPI_Aggregator", "AposAPI_Aggregator.csproj", "{F7DE2C17-1982-4510-A229-DDB8AB71DF64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{FC218485-C21A-4B4B-ACD4-0520FDEED87C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
