@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace AposAPI_Aggregator.Controllers
 {
     /// <summary>
-    /// Controller responsible for retrieving aggregated data from different external APIs.
+    /// Aggregates data from multiple APIs (e.g., weather, news) based on category and filter.
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
@@ -21,7 +21,16 @@ namespace AposAPI_Aggregator.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves aggregated data based on the provided filter and sort criteria.
+        /// </summary>
+        /// <param name="AggregatedDataDto">  Filter and Sort criteria to apply to the results (e.g., keyword or topic).</param>      
+        /// <returns>List of aggregated items from all relevant sources.</returns>
+        /// <response code="200">Returns the aggregated data.</response>
+        /// <response code="400">Invalid query parameters.</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromQuery] AggregatedDataDto data)
         {
             try
