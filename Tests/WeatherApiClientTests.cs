@@ -49,5 +49,51 @@ namespace APIAggregator.Tests.Integration
             Assert.That(result, Has.Some.Matches<AggregatedItemDto>(x => x.Source.Contains(_client.ApiName)),
                message: $"Expected result, is from  {_client.ApiName}");
         }
+
+        [Test]
+        public void FetchAsync_InvalidApiKey_ThrowsException()
+        {
+            _client.ApiKey = "YOUR_VALID_API_KEY";
+            var dto = new AggregatedDataDto { Filter = "London" };
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+
+            Assert.That(ex.Message, Does.Contain("Error fetching data from"));
+        }
+
+        [Test]
+        [Explicit("Requires real API key and a fake city")]
+        public void FetchAsync_InvalidCity_ThrowsException()
+        {
+           
+            var dto = new AggregatedDataDto { Filter = "FakeCity12345" };
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+
+            Assert.That(ex.Message, Does.Contain("Error fetching data"));
+        }
+
+        [Test]
+        public void FetchAsync_InvalidUrl_ThrowsHttpRequestException()
+        {
+            _client.ApiUrl = "https://invalid.openweathermap.org/api?q=";
+
+            var dto = new AggregatedDataDto { Filter = "London" };
+
+            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+
+            Assert.That(ex.InnerException, Is.TypeOf<HttpRequestException>());
+        }
     }
 }
+    
+
