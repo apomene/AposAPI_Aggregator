@@ -33,6 +33,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddLogging();
+builder.Services.AddSingleton<IApiStatsTracker, InMemoryApiStatsTracker>();
 
 var app = builder.Build();
 
