@@ -7,13 +7,16 @@ using Domain;
 using Clients;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 
 namespace APIAggregator.Infrastructure
 {
-    public class NewsApiClient(HttpClient httpClient, IConfiguration configuration) : IApiClient
+    public class NewsApiClient(HttpClient httpClient, IConfiguration configuration, ILogger<NewsApiClient> ? logger = null) : IApiClient
     {
+        private readonly ILogger<NewsApiClient> _logger = logger;
         private readonly HttpClient _httpClient = httpClient;
+        //private readonly ILogger<AggregationService> _logger;
 
         public string ApiKey { get; set; } = configuration["NewsApi:ApiKey"];
         public string ApiUrl { get; set; } = configuration["NewsApi:ApiUrl"];
@@ -37,7 +40,7 @@ namespace APIAggregator.Infrastructure
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Error {response.StatusCode}: {errorContent}");
+                    _logger?.LogError($"Error {response.StatusCode}: {errorContent}");
                 }
 
                 response.EnsureSuccessStatusCode();
@@ -46,30 +49,38 @@ namespace APIAggregator.Infrastructure
                 using var doc = JsonDocument.Parse(content);
 
                 var results = new List<AggregatedItemDto>();
-
-                foreach (var article in doc.RootElement.GetProperty("articles").EnumerateArray())
+                var articles = doc.RootElement.GetProperty("articles").EnumerateArray();
+                if (articles.Any())
                 {
-                    results.Add(new AggregatedItemDto
+                    foreach (var article in articles)
                     {
-                        Source = ApiName,
-                        Title = article.GetProperty("title").GetString(),
-                        Description = article.GetProperty("description").GetString(),
-                        Timestamp = DateTime.TryParse(article.GetProperty("publishedAt").GetString(), out var parsedDate)
-                                    ? parsedDate
-                                    : DateTime.UtcNow
-                    });
+                        results.Add(new AggregatedItemDto
+                        {
+                            Source = ApiName,
+                            Title = article.GetProperty("title").GetString(),
+                            Description = article.GetProperty("description").GetString(),
+                            Timestamp = DateTime.TryParse(article.GetProperty("publishedAt").GetString(), out var parsedDate)
+                                        ? parsedDate
+                                        : DateTime.UtcNow
+                        });
+                    }
+                    _logger?.LogInformation($"{articles.Count()} articles retrieved from {ApiName}");
+                }
+                else
+                {
+                    _logger?.LogWarning($"No articles found for filter: {data.Filter}");
                 }
 
                 return results;
             }
             catch (HttpRequestException ex)
             {
-                //TO DO: Log
+                _logger?.LogError(ex.ToString());
                 throw new Exception($"Error fetching data from {ApiName}: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                //TO DO: Log
+                _logger?.LogError(ex.ToString());
                 throw;
             }
         }

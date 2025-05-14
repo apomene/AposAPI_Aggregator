@@ -7,11 +7,14 @@ using System.Collections.Generic;
 using Domain;
 using Clients;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace APIAggregator.Infrastructure
 {
-    public class WeatherApiClient(HttpClient httpClient, IConfiguration configuration) : IApiClient
+    public class WeatherApiClient(HttpClient httpClient, IConfiguration configuration, ILogger<NewsApiClient>? logger = null) : IApiClient
     {
+        private readonly ILogger<NewsApiClient> _logger = logger;
+
         private readonly HttpClient _httpClient = httpClient;
 
         public string ApiKey { get; set; } = configuration["WeatherApi:ApiKey"];
@@ -50,12 +53,12 @@ namespace APIAggregator.Infrastructure
             }
             catch (HttpRequestException ex)
             {
-                //TO DO: Log
+                _logger?.LogError(ex.ToString());
                 throw new Exception($"Error fetching data from {ApiName}: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                //TO DO: Log
+                _logger?.LogError(ex.ToString());
                 throw;
             }
 

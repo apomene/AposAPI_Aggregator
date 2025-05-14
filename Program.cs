@@ -5,8 +5,13 @@ using Clients;
 using Microsoft.AspNetCore.Builder;
 using APIAggregator.Infrastructure;
 using System.Reflection;
+using NLog.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
+// Replace built-in logging with NLog
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 // Add services to the container.
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -27,7 +32,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-
+builder.Services.AddLogging();
 
 var app = builder.Build();
 
