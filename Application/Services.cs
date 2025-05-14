@@ -39,7 +39,9 @@ namespace Application
             _statsTracker = statsTracker;
         }
 
-        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(AggregatedDataDto aggregatedData, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(
+    AggregatedDataDto aggregatedData,
+    CancellationToken cancellationToken = default)
         {
             var relevantClients = _apiClients
                 .Where(client => client.Category == aggregatedData.Category)
@@ -50,13 +52,18 @@ namespace Application
                 throw new InvalidOperationException($"No clients found for category {aggregatedData.Category}");
             }
 
-            var tasks = relevantClients.Select(async client =>
+            var resultBag = new ConcurrentBag<AggregatedItemDto>();
+
+            await Parallel.ForEachAsync(relevantClients, cancellationToken, async (client, ct) =>
             {
                 var stopwatch = Stopwatch.StartNew();
                 try
                 {
-                    var result = await client.FetchAsync(cancellationToken, aggregatedData);
-                    return result;
+                    var items = await client.FetchAsync(ct, aggregatedData);
+                    foreach (var item in items)
+                    {
+                        resultBag.Add(item); 
+                    }
                 }
                 finally
                 {
@@ -65,16 +72,9 @@ namespace Application
                 }
             });
 
-            try
-            {
-                var results = await Task.WhenAll(tasks);
-                return results.SelectMany(r => r);
-            }
-            catch (Exception)
-            {               
-                throw;
-            }
+            return resultBag; 
         }
+
 
     }
 
