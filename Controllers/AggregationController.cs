@@ -1,6 +1,7 @@
 using Application;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 
 namespace AposAPI_Aggregator.Controllers
 {
@@ -33,10 +34,27 @@ namespace AposAPI_Aggregator.Controllers
 
                 return Ok(result);
             }
+            catch (HttpRequestException  ex)
+            {
+                _logger.LogError(ex, "Invalid request: {Filter} / {Category}", data.Filter, data.Category);
+                
+                return BadRequest($"Invalid request:{ex.HttpRequestError.ToString()}. Please check your input.");
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to get aggregated data for filter: {Filter}, category: {Category}", data.Filter, data.Category);
-                return StatusCode(500, "An error occurred while processing your request.");
+                var errorMessage = ex.Message;
+                if (errorMessage.Contains("404")) {
+
+                    return NotFound($"No data found for the given filter: {data.Filter} in category: {data.Category}");
+                }
+                else if (errorMessage.Contains("400"))
+                {
+
+                    return BadRequest(errorMessage);               
+                }
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+
             }
         }
     }

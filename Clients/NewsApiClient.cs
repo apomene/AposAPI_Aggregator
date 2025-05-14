@@ -16,7 +16,6 @@ namespace APIAggregator.Infrastructure
     {
         private readonly ILogger<NewsApiClient> _logger = logger;
         private readonly HttpClient _httpClient = httpClient;
-        //private readonly ILogger<AggregationService> _logger;
 
         public string ApiKey { get; set; } = configuration["NewsApi:ApiKey"];
         public string ApiUrl { get; set; } = configuration["NewsApi:ApiUrl"];
@@ -68,7 +67,7 @@ namespace APIAggregator.Infrastructure
                 }
                 else
                 {
-                    _logger?.LogWarning($"No articles found for filter: {data.Filter}");
+                     throw new HttpRequestException($"No articles found for filter: {data.Filter}");
                 }
 
                 return results;
@@ -76,7 +75,7 @@ namespace APIAggregator.Infrastructure
             catch (HttpRequestException ex)
             {
                 _logger?.LogError(ex.ToString());
-                throw new Exception($"Error fetching data from {ApiName}: {ex.Message}", ex);
+                throw;
             }
             catch (Exception ex)
             {

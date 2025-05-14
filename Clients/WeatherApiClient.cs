@@ -37,6 +37,10 @@ namespace APIAggregator.Infrastructure
 
                 var json = await response.Content.ReadAsStringAsync(cancellationToken);
                 var weather = JsonDocument.Parse(json);
+                if (weather.RootElement.TryGetProperty("cod", out var cod) && cod.GetInt32() != 200)
+                {
+                    _logger?.LogWarning($"Error fetching data from {ApiName}: {weather.RootElement.GetProperty("message").GetString()}");
+                }
 
                 var result = new List<AggregatedItemDto>
             {
@@ -48,6 +52,7 @@ namespace APIAggregator.Infrastructure
                     Description = weather.RootElement.GetProperty("weather")[0].GetProperty("description").GetString()
                 }
             };
+                _logger?.LogInformation($"weather data retrieved from {ApiName}, for {data.Filter} city");
 
                 return result;
             }
