@@ -19,6 +19,8 @@ namespace APIAggregator.Infrastructure
 
         public string ApiName { get; set; } = "OpenWeatherMap";
 
+        public ClientCategory Category { get; set; } = ClientCategory.WeatherApi;
+
 
         private List<string> _cities = new List<string>
         {

@@ -18,6 +18,8 @@ namespace APIAggregator.Infrastructure
         public string ApiUrl { get; set; } = configuration["NewsApi:ApiUrl"];
         public string ApiName { get; set; } = "NewsAPI";
 
+        public ClientCategory Category { get; set; } = ClientCategory.NewsApi;
+
         public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data)
         {
             try

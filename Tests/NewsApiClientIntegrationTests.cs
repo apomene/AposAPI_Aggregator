@@ -1,13 +1,15 @@
 ﻿
 using APIAggregator.Infrastructure;
+using Clients;
 using Domain;
 using Microsoft.Extensions.Configuration;
+using NUnit.Framework.Interfaces;
 
 namespace IntegrationTests
 {
     public class NewsApiClientIntegrationTests
     {
-        private NewsApiClient _client;
+        private IApiClient _client;
 
         [SetUp]
         public void Setup()
@@ -21,8 +23,11 @@ namespace IntegrationTests
             _client = new NewsApiClient(httpClient, configuration)
             {
                 ApiKey = configuration["NewsApi:ApiKey"],
-                ApiUrl = configuration["NewsApi:ApiUrl"]
+                ApiUrl = configuration["NewsApi:ApiUrl"],
+
             };
+
+            
         }
 
         [Test]

@@ -2,13 +2,14 @@
 using Domain;
 using APIAggregator.Infrastructure;
 using Microsoft.Extensions.Configuration;
+using Clients;
 
 
 namespace APIAggregator.Tests.Integration
 {
     public class WeatherApiClientIntegrationTests
     {
-        private WeatherApiClient _client;
+        private IApiClient _client;
 
         [SetUp]
         public void Setup()

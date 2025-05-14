@@ -20,14 +20,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
-
-//builder.Services.AddSingleton<IApiClient>(provider =>
-//{
-//    var client = provider.GetRequiredService<NewsApiClient>();
-//    client.ApiKey = builder.Configuration["NewsApi"];
-//    return client;
-//});
 
 
 

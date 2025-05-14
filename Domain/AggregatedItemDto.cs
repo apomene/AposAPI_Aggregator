@@ -2,29 +2,65 @@
 
 namespace Domain
 {
-    public class AggregatedItemDto
+    /// <summary>
+    /// Represents a request for aggregated data from a specific API category.
+    /// </summary>
+    public class AggregatedDataDto
     {
-        public string Source { get; set; }
-        public string Title { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string Description { get; set; }
+        /// <summary>
+        /// Filter criteria to apply to the results (e.g., keyword or topic).
+        /// </summary>
+        [JsonPropertyName("Filter")]
+        public required string Filter { get; set; }
 
-        public ItemCategory Category { get; set; }
+        /// <summary>
+        /// Sorting option (e.g., 'date', 'relevance'). Optional.
+        /// </summary>
+        public string Sort { get; set; } = "";
+
+        /// <summary>
+        /// The category of API to query (e.g., WeatherApi, NewsApi, GitHub).
+        /// </summary>
+        [JsonRequired]
+        [JsonPropertyName("api")]
+        [JsonConverter(typeof(JsonStringEnumConverter))] // ✅ Converts enum to string in Swagger and JSON
+        public ClientCategory Category { get; set; }
     }
 
-    public enum ItemCategory
+    /// <summary>
+    /// Defines the available API categories for aggregation.
+    /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))] // ✅ Converts enum values to string in responses
+    public enum ClientCategory
     {
-        Weather,
-        News,
+        WeatherApi,
+        NewsApi,
         GitHub
     }
 
-    public class AggregatedDataDto
+    /// <summary>
+    /// Represents an aggregated item returned from an API client.
+    /// </summary>
+    public class AggregatedItemDto
     {
-        //public List<AggregatedItemDto> Items { get; set; }
-        [JsonPropertyName("Filter")]
-        public required string Filter { get; set; }
-        public string Sort { get; set; } = "";
-    }   
+        /// <summary>
+        /// Source of the data (e.g., API name).
+        /// </summary>
+        public string Source { get; set; }
 
+        /// <summary>
+        /// Title or heading of the aggregated item.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Timestamp when the data item was generated or retrieved.
+        /// </summary>
+        public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Detailed description or content of the aggregated item.
+        /// </summary>
+        public string Description { get; set; }
+    }
 }
