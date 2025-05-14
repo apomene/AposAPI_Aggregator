@@ -24,7 +24,7 @@ namespace AposAPI_Aggregator.Controllers
         /// <summary>
         /// Retrieves aggregated data based on the provided filter and sort criteria.
         /// </summary>
-        /// <param name="AggregatedDataDto">  Filter and Sort criteria to apply to the results (e.g., keyword or topic).</param>      
+        /// <param name="data">Filter and Sort criteria to apply to the results (e.g., keyword or topic)</param>   
         /// <returns>List of aggregated items from all relevant sources.</returns>
         /// <response code="200">Returns the aggregated data.</response>
         /// <response code="400">Invalid query parameters.</response>

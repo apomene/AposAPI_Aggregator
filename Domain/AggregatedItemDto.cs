@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace Domain
 {
@@ -23,14 +24,15 @@ namespace Domain
         /// </summary>
         [JsonRequired]
         [JsonPropertyName("api")]
-        [JsonConverter(typeof(JsonStringEnumConverter))] // ✅ Converts enum to string in Swagger and JSON
+        [JsonConverter(typeof(JsonStringEnumConverter))] 
+        [DefaultValue(ClientCategory.WeatherApi)]
         public ClientCategory Category { get; set; }
     }
 
     /// <summary>
     /// Defines the available API categories for aggregation.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))] // ✅ Converts enum values to string in responses
+    [JsonConverter(typeof(JsonStringEnumConverter))] 
     public enum ClientCategory
     {
         WeatherApi,
