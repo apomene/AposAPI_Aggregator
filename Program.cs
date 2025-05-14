@@ -4,6 +4,7 @@ using Application;
 using Clients;
 using Microsoft.AspNetCore.Builder;
 using APIAggregator.Infrastructure;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 builder.Services.AddApplicationServices();
+var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 
 
