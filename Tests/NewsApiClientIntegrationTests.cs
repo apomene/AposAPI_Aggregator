@@ -58,5 +58,41 @@ namespace IntegrationTests
                 Assert.That(_client.ApiName,Is.EqualTo( article.Source));
             }
         }
+
+        [Test]       
+        public void FetchAsync_ValidKeyButNoArticles_ThrowsHttpRequestException()
+        {
+            var dto = new AggregatedDataDto { Filter = "zz" }; // Invalid/rare country code
+
+            Assert.ThrowsAsync<HttpRequestException>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+        }
+
+        [Test]
+        public void FetchAsync_TimeoutOrInvalidUrl_ThrowsHttpRequestException()
+        {
+            _client.ApiUrl = "https://invalid-url.org"; // force failure
+
+            var dto = new AggregatedDataDto { Filter = "us" };
+
+            Assert.ThrowsAsync<UriFormatException>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+        }
+
+        [Test]
+        public void FetchAsync_InvalidApiKey_ThrowsHttpRequestException()
+        {
+            var dto = new AggregatedDataDto { Filter = "us" };
+            _client.ApiKey = "InvalidKey";
+            Assert.ThrowsAsync<HttpRequestException>(async () =>
+            {
+                await _client.FetchAsync(CancellationToken.None, dto);
+            });
+        }
+
     }
 }
