@@ -9,7 +9,6 @@ using NLog.Web;
 
 
 var builder = WebApplication.CreateBuilder(args);
-// Replace built-in logging with NLog
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 

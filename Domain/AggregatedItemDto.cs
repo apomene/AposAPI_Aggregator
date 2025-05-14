@@ -46,12 +46,12 @@ namespace Domain
         /// <summary>
         /// Source of the data (e.g., API name).
         /// </summary>
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         /// <summary>
         /// Title or heading of the aggregated item.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Timestamp when the data item was generated or retrieved.
@@ -61,6 +61,6 @@ namespace Domain
         /// <summary>
         /// Detailed description or content of the aggregated item.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

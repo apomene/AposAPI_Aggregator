@@ -14,7 +14,9 @@ namespace APIAggregator.Infrastructure
 {
     public class NewsApiClient(HttpClient httpClient, IConfiguration configuration, ILogger<NewsApiClient> ? logger = null) : IApiClient
     {
+#pragma warning disable CS8601 // Possible null reference assignment.
         private readonly ILogger<NewsApiClient> _logger = logger;
+#pragma warning restore CS8601 // Possible null reference assignment.
         private readonly HttpClient _httpClient = httpClient;
 
         public string ApiKey { get; set; } = configuration["NewsApi:ApiKey"];
