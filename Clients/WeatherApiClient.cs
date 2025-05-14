@@ -22,21 +22,11 @@ namespace APIAggregator.Infrastructure
         public ClientCategory Category { get; set; } = ClientCategory.WeatherApi;
 
 
-        private List<string> _cities = new List<string>
-        {
-            "London",
-            "New York",
-            "Tokyo"
-        };
-
         public async Task<IEnumerable<AggregatedItemDto>> FetchAsync(CancellationToken cancellationToken, AggregatedDataDto data)
         {
-            try
-            {
-                var city = _cities.FirstOrDefault(c => c == data.Filter);
-                //city = "Athens"; // For testing purposes, you can remove this line later
+            try { 
 
-                var url = $"{ApiUrl}{city}&appid={ApiKey}&units=metric";
+                var url = $"{ApiUrl}{data.Filter}&appid={ApiKey}&units=metric";
 
 
                 var response = await _httpClient.GetAsync(url, cancellationToken);
@@ -50,13 +40,18 @@ namespace APIAggregator.Infrastructure
                 new AggregatedItemDto
                 {
                     Source = ApiName,
-                    Title = $"Weather in {city}",
+                    Title = $"Weather in {data.Filter}",
                     Timestamp = DateTime.UtcNow,
                     Description = weather.RootElement.GetProperty("weather")[0].GetProperty("description").GetString()
                 }
             };
 
                 return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                //TO DO: Log
+                throw new Exception($"Error fetching data from {ApiName}: {ex.Message}", ex);
             }
             catch (Exception ex)
             {

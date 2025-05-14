@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Domain;
 using Clients;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 
 namespace APIAggregator.Infrastructure
@@ -27,8 +28,18 @@ namespace APIAggregator.Infrastructure
                 var country = string.IsNullOrWhiteSpace(data.Filter) ? "us" : data.Filter;
 
                 var requestUrl = $"{ApiUrl}{country}&apiKey={ApiKey}";
+                var apiName = Assembly.GetEntryAssembly()?.GetName().Name;
+
+
+                _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(apiName);
 
                 var response = await _httpClient.GetAsync(requestUrl, cancellationToken);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error {response.StatusCode}: {errorContent}");
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -50,6 +61,11 @@ namespace APIAggregator.Infrastructure
                 }
 
                 return results;
+            }
+            catch (HttpRequestException ex)
+            {
+                //TO DO: Log
+                throw new Exception($"Error fetching data from {ApiName}: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
