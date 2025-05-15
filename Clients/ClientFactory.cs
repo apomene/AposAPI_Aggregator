@@ -29,6 +29,7 @@ namespace Clients
             {
                 ClientCategory.WeatherApi => _provider.GetRequiredService<WeatherApiClient>(),
                 ClientCategory.NewsApi => _provider.GetRequiredService<NewsApiClient>(),
+                ClientCategory.GitHub => _provider.GetRequiredService<GitHubApiClient>(),
                 _ => throw new NotImplementedException($"No client registered for {category}")
             };
         }

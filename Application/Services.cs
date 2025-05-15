@@ -17,6 +17,7 @@ namespace Application
             services.AddScoped<IAggregationService, AggregationService>();
             services.AddScoped<NewsApiClient>();
             services.AddScoped<WeatherApiClient>();
+            services.AddScoped<GitHubApiClient>();
             services.AddScoped<IApiClientFactory, ApiClientFactory>();          
             return services;
         }
@@ -33,9 +34,11 @@ namespace Application
         {
             var weatherClient = factory.CreateClient(ClientCategory.WeatherApi);
             var newsClient = factory.CreateClient(ClientCategory.NewsApi);
+            var gitHubClient = factory.CreateClient(ClientCategory.GitHub);
 
             _apiClients.Add(weatherClient);
             _apiClients.Add(newsClient);
+            _apiClients.Add(gitHubClient);
             _statsTracker = statsTracker;
         }
 
