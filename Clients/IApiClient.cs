@@ -22,6 +22,7 @@ namespace Clients
         {
             services.AddScoped<IApiClient, WeatherApiClient>();
             services.AddScoped<IApiClient, NewsApiClient>();
+            services.AddScoped<IApiClient, GitHubApiClient>();
             return services;
         }
     }

@@ -11,7 +11,6 @@ namespace Application
 {
     public static class ApplicationServiceRegistration
     {
-        //static HashSet<string> ApiNames { get; set; }
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAggregationService, AggregationService>();
