@@ -1,15 +1,8 @@
-﻿using System.Net.Http;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
+﻿using System.Text.Json;
 using System.Reflection;
 using Domain;
 using Microsoft.Extensions.Logging;
-using APIAggregator.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging.Abstractions;
 
 
 namespace Clients

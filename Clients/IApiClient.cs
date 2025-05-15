@@ -1,6 +1,5 @@
 ﻿using APIAggregator.Infrastructure;
 using Domain;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 

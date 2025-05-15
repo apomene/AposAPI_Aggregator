@@ -1,8 +1,5 @@
 ﻿using Clients;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Domain;
-using APIAggregator.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests

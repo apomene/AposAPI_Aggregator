@@ -3,7 +3,6 @@ using APIAggregator.Infrastructure;
 using Clients;
 using Domain;
 using Microsoft.Extensions.Configuration;
-using NUnit.Framework.Interfaces;
 
 namespace IntegrationTests
 {
