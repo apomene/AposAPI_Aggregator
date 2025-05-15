@@ -72,7 +72,14 @@ namespace APIAggregator.Infrastructure
                      throw new HttpRequestException($"No articles found for filter: {data.Filter}");
                 }
 
-                return results;
+                return data.Sort?.ToLower() switch
+                {
+                    "title" => results.OrderBy(r => r.Title),
+                    "date" => results.OrderBy(r => r.Timestamp),
+                    "date_desc" => results.OrderByDescending(r => r.Timestamp),
+                    _ => results
+                };
+                
             }
             catch (HttpRequestException ex)
             {
