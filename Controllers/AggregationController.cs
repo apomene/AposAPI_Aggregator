@@ -22,14 +22,20 @@ namespace AposAPI_Aggregator.Controllers
         }
 
         /// <summary>
-        /// Retrieves aggregated data based on the provided filter and sort criteria.
+        /// Retrieves aggregated data from external APIs based on category and filter.
         /// </summary>
-        /// <param name="data">Filter and Sort criteria to apply to the results (e.g., keyword or topic)</param>   
-        /// <returns>List of aggregated items from all relevant sources.</returns>
-        /// <response code="200">Returns the aggregated data.</response>
-        /// <response code="400">Invalid query parameters.</response>
+        /// <param name="data">Query object containing filter, category, and sort options.</param>
+        /// <remarks>
+        /// Supported sort values:
+        /// - date: sort by oldest first
+        /// - date_desc: sort by newest first (default)
+        /// - title: sort alphabetically A-Z
+        /// - title_desc: sort alphabetically Z-A
+        /// </remarks>
+        /// <response code="200">Returns the aggregated and sorted data</response>
+        /// <response code="400">Invalid parameters or request failure</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AggregatedItemDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromQuery] AggregatedDataDto data)
         {

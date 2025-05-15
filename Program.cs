@@ -1,6 +1,7 @@
 using Application;
 using System.Reflection;
 using NLog.Web;
+using Microsoft.OpenApi.Models;
 
 
 
@@ -29,7 +30,15 @@ public class Program
         var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         builder.Services.AddSwaggerGen(c =>
         {
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "API Aggregator",
+                Version = "v1",
+                Description = "Supported sort options: date, date_desc, title, title_desc"
+            });
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
         });
 
         builder.Services.AddLogging();
