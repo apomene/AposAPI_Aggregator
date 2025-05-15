@@ -41,7 +41,6 @@ namespace Clients
             {
                 var query = string.IsNullOrWhiteSpace(data.Filter) ? "dotnet" : data.Filter;
                 var requestUrl = $"{ApiUrl}{query}&per_page=20";
-
                
 
                 var response = await _httpClient.GetAsync(requestUrl, cancellationToken);
@@ -63,15 +62,9 @@ namespace Clients
                     });
                 }
 
-                _logger?.LogInformation($"{items.Count} GitHub repos fetched for '{query}'");
-                return data.Sort?.ToLower() switch
-                {
-                    "title" => items.OrderBy(r => r.Title),
-                    "date" => items.OrderBy(r => r.Timestamp),
-                    "date_desc" => items.OrderByDescending(r => r.Timestamp),
-                    _ => items
-                };
+                _logger?.LogInformation($"{items.Count} GitHub repos fetched for '{query}'");       
 
+                return items;
             }
             catch (Exception ex)
             {

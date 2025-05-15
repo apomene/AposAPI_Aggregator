@@ -88,10 +88,16 @@ namespace Application
             });
 
             _cache.Set(cacheKey, resultBag, TimeSpan.FromMinutes(_cacheDurationMinutes));
-
-            return resultBag; 
+            // Fallback global sort
+            return aggregatedData.Sort?.ToLower() switch
+            {
+                "title" => resultBag.OrderBy(r => r.Title),
+                "title_desc" => resultBag.OrderByDescending(r => r.Title),
+                "date" => resultBag.OrderBy(r => r.Timestamp),
+                "date_desc" => resultBag.OrderByDescending(r => r.Timestamp),
+                _ => resultBag.OrderByDescending(r => r.Timestamp) // default fallback
+            };
         }
-
 
     }
 

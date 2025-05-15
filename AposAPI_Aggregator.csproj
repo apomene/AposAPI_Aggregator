@@ -9,6 +9,8 @@
     <DockerfileContext>.</DockerfileContext>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn> <!-- Optional: suppress missing comment warnings -->
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>

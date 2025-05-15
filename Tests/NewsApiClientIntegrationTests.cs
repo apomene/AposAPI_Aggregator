@@ -93,6 +93,6 @@ namespace IntegrationTests
                 await _client.FetchAsync(CancellationToken.None, dto);
             });
         }
-
+     
     }
 }
