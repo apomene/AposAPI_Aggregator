@@ -34,6 +34,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddLogging();
 builder.Services.AddSingleton<IApiStatsTracker, InMemoryApiStatsTracker>();
 builder.Services.AddMemoryCache();
+builder.Services.Configure<CacheSettings>(
+    builder.Configuration.GetSection("CacheSettings"));
 
 
 var app = builder.Build();

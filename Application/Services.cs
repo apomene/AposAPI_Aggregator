@@ -3,6 +3,7 @@ using Clients;
 using Domain;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
@@ -29,9 +30,11 @@ namespace Application
         private readonly ConcurrentBag<IApiClient> _apiClients = new ConcurrentBag<IApiClient>();
         private readonly IApiStatsTracker _statsTracker;
         private readonly IMemoryCache _cache;
+        private readonly int _cacheDurationMinutes;
 
 
-        public AggregationService(IApiClientFactory factory, IApiStatsTracker statsTracker, IMemoryCache cache)
+        public AggregationService(IApiClientFactory factory, IApiStatsTracker statsTracker, 
+            IMemoryCache cache, IOptions<CacheSettings> cacheOptions)
         {
             var weatherClient = factory.CreateClient(ClientCategory.WeatherApi);
             var newsClient = factory.CreateClient(ClientCategory.NewsApi);
@@ -42,6 +45,7 @@ namespace Application
             _apiClients.Add(gitHubClient);
             _statsTracker = statsTracker;
             _cache = cache;
+            _cacheDurationMinutes = cacheOptions.Value.CacheIntervalInMinutes;
         }
 
         public async Task<IEnumerable<AggregatedItemDto>> GetAggregatedDataAsync(
@@ -83,7 +87,7 @@ namespace Application
                 }
             });
 
-            _cache.Set(cacheKey, resultBag, TimeSpan.FromMinutes(5));
+            _cache.Set(cacheKey, resultBag, TimeSpan.FromMinutes(_cacheDurationMinutes));
 
             return resultBag; 
         }
