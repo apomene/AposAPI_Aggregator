@@ -7,15 +7,51 @@
     <UserSecretsId>aspnet-AposAPI_Aggregator-76b10351-4aa9-412f-bc96-e089be82f773</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn> <!-- Optional: suppress missing comment warnings -->
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Application\**" />
+    <Compile Remove="Clients\**" />
+    <Compile Remove="Domain\**" />
+    <Compile Remove="Tests\**" />
+    <Content Remove="Application\**" />
+    <Content Remove="Clients\**" />
+    <Content Remove="Domain\**" />
+    <Content Remove="Tests\**" />
+    <EmbeddedResource Remove="Application\**" />
+    <EmbeddedResource Remove="Clients\**" />
+    <EmbeddedResource Remove="Domain\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Application\**" />
+    <None Remove="Clients\**" />
+    <None Remove="Domain\**" />
+    <None Remove="Tests\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.3" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
     <PackageReference Include="Microsoft.Identity.Web" Version="3.0.0" />
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="RichardSzalay.MockHttp" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Application\Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AposAPI_Aggregator", "AposAPI_Aggregator.csproj", "{F7DE2C17-1982-4510-A229-DDB8AB71DF64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{FC218485-C21A-4B4B-ACD4-0520FDEED87C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{27352C71-8505-44F6-A452-FC092F062798}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clients", "Clients\Clients.csproj", "{0CCC2A6C-8383-48EF-8A3F-D6F3003782AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3E290460-F6A7-420C-9FCC-23113B66CED5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\Apo\OneDrive\Desktop\API_Aggregator_Documentation.pdf = ..\..\Users\Apo\OneDrive\Desktop\API_Aggregator_Documentation.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +28,22 @@ Global
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7DE2C17-1982-4510-A229-DDB8AB71DF64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC218485-C21A-4B4B-ACD4-0520FDEED87C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27352C71-8505-44F6-A452-FC092F062798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27352C71-8505-44F6-A452-FC092F062798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27352C71-8505-44F6-A452-FC092F062798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27352C71-8505-44F6-A452-FC092F062798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CCC2A6C-8383-48EF-8A3F-D6F3003782AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CCC2A6C-8383-48EF-8A3F-D6F3003782AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CCC2A6C-8383-48EF-8A3F-D6F3003782AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CCC2A6C-8383-48EF-8A3F-D6F3003782AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E290460-F6A7-420C-9FCC-23113B66CED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E290460-F6A7-420C-9FCC-23113B66CED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E290460-F6A7-420C-9FCC-23113B66CED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E290460-F6A7-420C-9FCC-23113B66CED5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
